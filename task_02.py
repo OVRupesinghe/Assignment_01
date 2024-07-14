@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from wordcloud import WordCloud
-import wordninja
+#import wordninja
 from data_handler import DataLoader
 
 df = DataLoader('data/recipes.json').get_column('Ingredients')
@@ -27,20 +27,22 @@ pattern = r'\d+\s*\w*'
 lemmatizer = WordNetLemmatizer()
 
 # Function to preprocess the text
-def preprocess_text(text):
-    tokens = text.split(' ')
-    ingredients = []
-    for token in tokens:
-        if token not in stop_words and not re.match(pattern, token):
-            # split_words = wordninja.split(token)
-            # for split_word in split_words:
-            #     ingredients.append(split_word)
-            ingredients.append(token)
+def preprocess_text(texts):
+    total_words = []
+    for text in texts:
+        tokens = text.split(' ')
+        ingredients = []
+        for token in tokens:
+            if token not in stop_words and not re.match(pattern, token):
+                # split_words = wordninja.split(token)
+                # for split_word in split_words:
+                #     ingredients.append(split_word)
+                ingredients.append(token)
 
-    words = [ingredient.lower().translate(str.maketrans('', '', string.punctuation)) for ingredient in ingredients]
-    words = [lemmatizer.lemmatize(word) for word in words]
-    return (' '.join(words))
-
+        words = [ingredient.lower().translate(str.maketrans('', '', string.punctuation)) for ingredient in ingredients]
+        words = [lemmatizer.lemmatize(word) for word in words]
+        total_words += words
+    return ' '.join(total_words)
 # Read and preprocess the corpus
 ingredients = [preprocess_text(text) for text in df]
 

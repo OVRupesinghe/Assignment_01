@@ -10,7 +10,7 @@ def search_in_nested_list(nested_list, search_string):
     print(count)
 
 file = DataLoader('data/recipes.json')
-df = file.get_column_2('Method')
+df = file.get_column('Method')
 
 search_in_nested_list(df, 'saucepan')
 

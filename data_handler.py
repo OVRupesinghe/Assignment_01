@@ -15,7 +15,5 @@ class DataLoader:
         self.data = pd.DataFrame(json_line)
 
     def get_column(self, column):
-        return self.data[column].explode().tolist()
-
-    def get_column_2(self, column):
         return self.data[column].tolist()
+
