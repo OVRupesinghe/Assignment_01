@@ -5,11 +5,12 @@ from data_handler import DataLoader
 
 # Get the author column
 authors = DataLoader('data/recipes.json').get_column('Author')
+# Remove rows that doesn't indicate and author
 authors = [author for author in authors if author != "Unknown"]
 # Count the number of recipes by each author
 author_counts = Counter(authors)
 
-# Convert the counter to a DataFrame for easier plotting
+# Convert the counter to a dataFrame
 author_counts_df = pd.DataFrame.from_dict(author_counts, orient='index', columns=['Recipe Count'])
 
 # Plot the bar graph

@@ -1,17 +1,18 @@
 from data_handler import DataLoader
 import matplotlib.pyplot as plt
 
+# Load data
 df = DataLoader('data/recipes.json')
 ingredients = df.get_column('Ingredients')
 names = df.get_column('Name')
-
 ingredients_dict = dict(zip(names, ingredients))
 preferred_ingredients = ['sweet potato', 'chocolate', 'dried cranberries', 'raspberries', 'icing sugar', 'ginger',
                          'cherries', 'brandy']
 
 preferred_set = set(preferred_ingredients)
 
-
+# The score is calculated according to the number of occurrences of the preferred_ingredients in the ingredients
+# column of the particular recipe
 def get_score(dictionary):
     scores = {}
     for key, value in dictionary.items():
@@ -38,10 +39,10 @@ recipe_scores = get_score(ingredients_dict)
 sorted_recipes = sorted(recipe_scores.items(), key=lambda item: item[1], reverse=True)
 
 # Get the top 12 recipes
-top_12_recipes = sorted_recipes[:12]
+top_recipes = sorted_recipes[:12]
 
 # Display the top 12 recipes and their scores
-for recipe, score in top_12_recipes:
+for recipe, score in top_recipes:
     print(f'Recipe: {recipe}, Score: {score}')
 
 
@@ -49,7 +50,7 @@ for recipe, score in top_12_recipes:
 def plot_recommendations(recipes):
     names, scores = zip(*recipes)
     plt.figure(figsize=(12, 6))
-    plt.barh(names, scores, color='skyblue')
+    plt.barh(names, scores, color='green')
     plt.xlabel('Score')
     plt.ylabel('Recipe')
     plt.title('Top 12 Recommended Foods for Customer A')
@@ -57,4 +58,4 @@ def plot_recommendations(recipes):
     plt.show()
 
 
-plot_recommendations(top_12_recipes)
+plot_recommendations(top_recipes)
